@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import { Route, Redirect, withRouter, Switch } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import Topbar from './components/Topbar/Topbar';
 import Projects from './screens/Projects/Projects';
@@ -15,8 +15,9 @@ export default withRouter(
                 <div>
                     <Topbar />
                     <Switch>
-                        <RouteWithTitle exact path="/" component={Home} />
-                        <RouteWithTitle exact path="/projects" component={Projects} />
+                        <RouteWithTitle title={'Home'} exact path="/" component={Home} />
+                        <RouteWithTitle title={'Projects'} path="/projects" component={Projects} />
+                        {/* <Redirect to={'/Home'} /> */}
                     </Switch>
                 </div>
             );

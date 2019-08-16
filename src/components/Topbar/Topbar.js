@@ -7,8 +7,7 @@ export default (class Topbar extends React.Component {
             <div>
                 <ul>
                     <Link to="/"><li>Home</li></Link>
-                    <Link to="/projects"><li>Projects</li></Link>                    
-                </ul>
+                    <Link to="/projects"><li>Projects</li></Link>                </ul>
             </div>
         );
     }
