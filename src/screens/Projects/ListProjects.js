@@ -1,9 +1,7 @@
 import * as React from 'react';
 import WebServices from '../../WebServices/WebServices';
 import produce from 'immer/dist/immer';
-import { async } from 'q';
 import Table from '../../components/Table/Table';
-import { Route, Redirect, Link} from 'react-router-dom';
 
 export default (class ListProjects extends React.PureComponent {
 	state = {

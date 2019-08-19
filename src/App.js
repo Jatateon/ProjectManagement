@@ -12,12 +12,12 @@ export default withRouter(
     class App extends React.PureComponent {
         render() {
             return (
-                <div>
+                <div>{logo}
                     <Topbar />
                     <Switch>
                         <RouteWithTitle title={'Home'} exact path="/" component={Home} />
-                        <RouteWithTitle title={'Projects'} path="/projects" component={Projects} />
-                        {/* <Redirect to={'/Home'} /> */}
+                        <RouteWithTitle title={'Projects'} path="/project" component={Projects} />
+                        <Redirect to={'/Home'} />
                     </Switch>
                 </div>
             );

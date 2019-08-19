@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import styles from './LinkTable.module.scss';
 import {Link} from 'react-router-dom';
-import { IconEdit, IconView, IconAddMark, IconRemoveMark, IconUpdate, IconSearch, IconPlus, IconForward, IconRemove} from '../../resources/svg/Icon';
+import { IconEdit, IconBack, IconView, IconAddMark, IconRemoveMark, IconUpdate, IconSearch, IconPlus, IconForward, IconRemove} from '../../resources/svg/Icon';
 
 export default class LinkTable extends React.Component {
     static propTypes = {
@@ -13,6 +13,8 @@ export default class LinkTable extends React.Component {
 
     selectIcon = (type) => {
 		switch (type) {
+            case 'back':
+                return <IconBack className={styles.icon} />
             case 'view':
                 return <IconView className={styles.icon} />
             case 'edit':
@@ -35,7 +37,7 @@ export default class LinkTable extends React.Component {
 	};
 
     render () {
-        const {to, value, icon} = this.props;
+        const {to, icon} = this.props;
         return (
             <div>
                 <Link to={to}>{this.selectIcon(icon)}</Link>
