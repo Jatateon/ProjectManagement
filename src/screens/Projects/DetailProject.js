@@ -18,7 +18,7 @@ export default (class DetailProject extends React.PureComponent {
 	getProject = async () => {
 		const id = parseInt(this.props.match.params.id, 10);
 		try {
-			const response = await WebServices.getDataFromFullUrl({ params: '/' + id });
+			const response = await WebServices.getDataFromFullUrl({ params: '/projects/' + id });
 			console.log('TCL: DetailProject -> getProject -> response', response);
 			const nextSatate = produce(this.state, (draft) => {
 				draft.data = response.data;

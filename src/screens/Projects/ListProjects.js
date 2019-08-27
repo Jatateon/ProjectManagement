@@ -46,7 +46,7 @@ export default (class ListProjects extends React.PureComponent {
 
 	getData = async () => {
 		try {
-			const response = await WebServices.getDataFromFullUrl({ params: '' });
+			const response = await WebServices.getDataFromFullUrl({ params: '/projects' });
 			const nextSatate = produce(this.state, (draft) => {
 				draft.data = response.data;
 				console.log('TCL: Projects -> nextSatate -> response.data', response.data);
