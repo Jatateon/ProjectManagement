@@ -5,6 +5,7 @@ import { Route, Redirect, withRouter, Switch } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import Topbar from './components/Topbar/Topbar';
 import Projects from './screens/Projects/Projects';
+import CreateProject from './screens/Projects/CreateProject';
 import Home from './screens/Home/Home';
 
 
@@ -17,6 +18,7 @@ export default withRouter(
                     <Switch>
                         <RouteWithTitle title={'Home'} exact path="/" component={Home} />
                         <RouteWithTitle title={'Projects'} path="/project" component={Projects} />
+                        <RouteWithTitle title={'Add new Project'} exact path="/createProject" component={CreateProject} />
                         <Redirect to={'/Home'} />
                     </Switch>
                 </div>

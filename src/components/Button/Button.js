@@ -1,30 +1,44 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Button.module.scss';
-import { IconEdit, IconAddMark, IconRemoveMark, IconUpdate, IconSearch, IconPlus, IconForward, IconRemove} from '../../resources/svg/Icon';
+import {
+	IconSave,
+	IconBack,
+	IconEdit,
+	IconAddMark,
+	IconRemoveMark,
+	IconUpdate,
+	IconSearch,
+	IconPlus,
+	IconForward,
+	IconRemove
+} from '../../resources/svg/Icon';
 
 export default class Button extends React.Component {
 	static propTypes = {
 		onClick: PropTypes.func.isRequired,
-        label: PropTypes.string,
-        over: PropTypes.bool,
+		over: PropTypes.bool,
+		alignIcon: PropTypes.string
 	};
 
 	selectIcon = (type) => {
-        const {over} = this.props;
 		switch (type) {
-            case 'edit':
-                return <IconEdit className={ over ? styles.icon_selected : styles.icon} />
-            case 'update':
-                return <IconUpdate className={styles.icon}/>
-            case 'search':
-                return <IconSearch className={styles.icon}/>
-            case 'plus':
-                return <IconPlus className={styles.icon}/>
-            case 'forward':
-                return <IconForward className={styles.icon}/>
-            case 'remove':
-                return <IconRemove className={styles.icon}/>
+			case 'back':
+				return <IconBack className={styles.icon} />;
+			case 'save':
+				return <IconSave className={styles.icon} />;
+			case 'edit':
+				return <IconEdit className={styles.icon} />;
+			case 'update':
+				return <IconUpdate className={styles.icon} />;
+			case 'search':
+				return <IconSearch className={styles.icon} />;
+			case 'plus':
+				return <IconPlus className={styles.icon} />;
+			case 'forward':
+				return <IconForward className={styles.icon} />;
+			case 'remove':
+				return <IconRemove className={styles.icon} />;
 			case 'add':
 				return <IconAddMark className={styles.icon} />;
 			default:
@@ -33,11 +47,13 @@ export default class Button extends React.Component {
 	};
 
 	render() {
-		const { onClick, type, className } = this.props;
+		const { onClick, type, className, text, alignIcon } = this.props;
 		return (
 			<div className={styles.main}>
 				<button onClick={onClick} className={styles.button + ' ' + className}>
-					{this.selectIcon(type)}
+					{type && type !== '' && alignIcon && alignIcon.toLowerCase() === 'right' && this.selectIcon(type)}
+					{text && text !== '' && <label className={styles.label}>{text}</label>}
+					{type && type !== '' && alignIcon && alignIcon.toLowerCase() === 'left' && this.selectIcon(type)}
 				</button>
 			</div>
 		);

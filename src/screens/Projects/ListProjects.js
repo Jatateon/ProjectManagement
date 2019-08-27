@@ -2,6 +2,8 @@ import * as React from 'react';
 import WebServices from '../../WebServices/WebServices';
 import produce from 'immer/dist/immer';
 import Table from '../../components/Table/Table';
+import styles from './DetailProject.module.scss';
+import Button from '../../components/Button/Button';
 
 export default (class ListProjects extends React.PureComponent {
 	state = {
@@ -9,26 +11,30 @@ export default (class ListProjects extends React.PureComponent {
 		data: [],
 		headers: [
 			{
-				name: 'Editar',
+				name: 'Edit',
 				value: 'id',
 				type: 'link',
                 footer: '',
-                icon:'view'
+				icon:'view',
+				flex:1,
 			},
 			{
-				name: 'Nombre',
+				name: 'Name',
 				value: 'name',
-				footer: ''
+				footer: '',
+				flex:2,
 			},
 			{
-				name: 'Objetivo',
+				name: 'Objective',
 				value: 'objective',
-				footer: ''
+				footer: '',
+				flex:6,
 			},
 			{
-				name: 'Avance',
+				name: 'Progress',
 				value: 'progress',
-				footer: ''
+				footer: '',
+				flex:1,
 			}
 		]
 	};
@@ -39,10 +45,8 @@ export default (class ListProjects extends React.PureComponent {
 	}
 
 	getData = async () => {
-		const url = 'http://127.0.0.1:8000/api/projects/';
-		console.log('TCL: Projects -> getData -> url', url);
 		try {
-			const response = await WebServices.getDataFromFullUrl({ fullUrl: url });
+			const response = await WebServices.getDataFromFullUrl({ params: '' });
 			const nextSatate = produce(this.state, (draft) => {
 				draft.data = response.data;
 				console.log('TCL: Projects -> nextSatate -> response.data', response.data);
@@ -53,24 +57,27 @@ export default (class ListProjects extends React.PureComponent {
 		}
 	};
 
-	onClickRow = (e) => {
+	onClickButton = (e) => {
         const {history} = this.props;
         history.push({
-            pathname:'/projects/',
-            search:'id='+e
-        });
-        
-        console.log("TCL: Projects -> onClickRow -> this.props.match.params", this.props.match.params);
-
+			pathname:'/createProject/'
+		});
+		console.log("TCL: ListProjects -> onClickButton -> history", history);
 	};
 
 	render() {
 		const { data, headers } = this.state;
 		return (
-			<div>
-				<div>Hola</div>
-				<div>
-					{data && data.length > 1 && <Table data={data} headers={headers} onClickRow={this.onClickRow} />}
+			<div className={styles.main}>
+				<div className={styles.vertical}>
+					<div className={styles.vertical_item + ' ' + styles.horizontal}>
+						<Button type={"add"} alignIcon={"right"} text={"New Project"} onClick={this.onClickButton}/>
+					</div>
+					<div className={styles.vertical_item}>
+						<div>
+							{data && data.length > 1 && <Table data={data} headers={headers} onClickRow={this.onClickRow} />}
+						</div>
+					</div>
 				</div>
 			</div>
 		);

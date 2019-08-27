@@ -3,11 +3,12 @@ import WebServices from '../../WebServices/WebServices';
 import produce from 'immer/dist/immer';
 import styles from './DetailProject.module.scss';
 import LinkTable from '../../components/LinkTable/LinkTable';
+import ProgressRadialBarChart from '../../components/Charts/ProgressRadialBarChart';
 
 export default (class DetailProject extends React.PureComponent {
 	state = {
-		response:{},
-		data:[]
+		response: {},
+		data: {}
 	};
 
 	componentDidMount() {
@@ -15,35 +16,58 @@ export default (class DetailProject extends React.PureComponent {
 	}
 
 	getProject = async () => {
-		const url = 'http://127.0.0.1:8000/api/projects/';
 		const id = parseInt(this.props.match.params.id, 10);
-        console.log("TCL: DetailProject -> getProject -> id", id);
-		console.log("TCL: DetailProject -> getProject -> url + id", url + id)
 		try {
-			const response = await WebServices.getDataFromFullUrl({ fullUrl: url + id });
+			const response = await WebServices.getDataFromFullUrl({ params: '/' + id });
+			console.log('TCL: DetailProject -> getProject -> response', response);
 			const nextSatate = produce(this.state, (draft) => {
-				draft.data = response.data[0];
-				console.log('TCL: Projects -> nextSatate -> response.data', response.data);
+				draft.data = response.data;
+				const progress = response.data.progress;
+				switch (true) {
+					case progress < 40:
+						draft.data.fill = 'RED';
+						break;
+					case progress < 80:
+						draft.data.fill = 'ORANGE';
+						break;
+					default:
+						draft.data.fill = '#A4DE6C';
+						break;
+				}
 			});
 			this.setState(nextSatate);
+			console.log('TCL: DetailProject -> getProject -> nextSatate', nextSatate);
 		} catch (error) {
 			console.log('TCL: Projects -> getData -> error', error);
 		}
-	}
+	};
 
 	render() {
-		const {data} = this.state;
+		const { data } = this.state;
+		console.log('TCL: DetailProject -> render -> data', data);
 		return (
-			<div className={styles.main}>
-				<strong>Ficha del proyecto : {data && data.id} </strong>
-				<LinkTable to={'/Project'} icon={'back'} />
-				<div>
-					<p> <strong>Clave:</strong> {data && data.key} <strong>Nombre:</strong> {data && data.name}</p>
-					<p> <strong>Objetivo:</strong> {data && data.objective} </p>
+			<div className={styles.main + ' ' + styles.vertical}>
+				<div className={styles.vertical_item}>
+					<strong>Project File : {data && data.id} </strong>
+					<LinkTable to={'/Project'} icon={'back'} />
 				</div>
-				<div>
-					<p>Avance</p>
-					{data && data.progress} 
+				<div className={styles.vertical_item}>
+					<div className={styles.horizontal}>
+						<div className={styles.horizontal_item}>
+							<div className={styles.vertical}>
+								<p>
+									<strong>KEY:</strong> {data && data.key} <strong>Name:</strong> {data && data.name}
+								</p>
+								<p>
+									<strong>Objective:</strong> {data && data.objective}
+								</p>
+							</div>
+						</div>
+						<div className={styles.horizontal_item}>
+							<p>Current progress</p>
+							<ProgressRadialBarChart data={[ data ]} dataKey={'progress'} />
+						</div>
+					</div>
 				</div>
 			</div>
 		);

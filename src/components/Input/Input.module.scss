@@ -1,11 +1,6 @@
 * {
     box-sizing: border-box;
 }
-
-.main {
-    margin: 16px 16px 16px 16px;
-}
-
 .horizontal {
     display: flex;
     flex-direction: row;
@@ -24,7 +19,6 @@
     flex: 1;
 }
 
-.buttons {
-    margin-top: .5rem;
-    justify-content: left
+.label {
+    margin: .5rem;
 }
